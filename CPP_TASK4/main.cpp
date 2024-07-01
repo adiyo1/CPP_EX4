@@ -30,36 +30,27 @@ int main()
     tree.add_sub_node(n1, n3);
     tree.add_sub_node(n1, n4);
     tree.add_sub_node(n2, n5);
+    // tree.display();
 
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    //  tree.print(); // Should print the tree using GUI.
 
-        window.clear(sf::Color::White);
-        tree.draw(window);
-        window.display();
-    }
-
-    return 0;
+    
 //      sf::RenderWindow window(sf::VideoMode(800, 600), "Tree Visualization");
 //     // auto root =new Node<double>(1.2);
-//     auto root_node = new Node<double>(1.1);
-//     Tree<double> tree; // Binary tree that contains doubles.
-//     tree.add_root(root_node);
-//     auto n1 = new Node<double>(1.2);
-//     auto n2 = new Node<double>(1.3);
-//     auto n3 = new Node<double>(1.4);
-//     auto n4 = new Node<double>(1.5);
-//     auto n5 = new Node<double>(1.6);
+    // auto root_node = new Node<double>(1.1);
+    // Tree<double> tree; // Binary tree that contains doubles.
+    // tree.add_root(root_node);
+    // auto n1 = new Node<double>(1.2);
+    // auto n2 = new Node<double>(1.3);
+    // auto n3 = new Node<double>(1.4);
+    // auto n4 = new Node<double>(1.5);
+    // auto n5 = new Node<double>(1.6);
 
-//     tree.add_sub_node(root_node, n1);
-//     tree.add_sub_node(root_node, n2);
-//     tree.add_sub_node(n1, n3);
-//     tree.add_sub_node(n1, n4);
-//     tree.add_sub_node(n2, n5);
+    // tree.add_sub_node(root_node, n1);
+    // tree.add_sub_node(root_node, n2);
+    // tree.add_sub_node(n1, n3);
+    // tree.add_sub_node(n1, n4);
+    // tree.add_sub_node(n2, n5);
 
 //     while (window.isOpen()) {
 //         sf::Event event;
@@ -75,14 +66,14 @@ int main()
    
 //    tree.print(); // Should print the tree using GUI.
 
-//     // The tree should look like:
-//     /**
-//      *       root = 1.1
-//      *     /       \
-//      *    1.2      1.3
-//      *   /  \      /
-//      *  1.4  1.5  1.6
-//      */
+    // The tree should look like:
+    /**
+     *       root = 1.1
+     *     /       \
+     *    1.2      1.3
+     *   /  \      /
+     *  1.4  1.5  1.6
+     */
 //     cout << "pre-order: " << endl;
 //     for (auto node = tree.begin_pre_order(); node != tree.end_pre_order(); ++node)
 //     {        
@@ -132,21 +123,21 @@ int main()
 //     // cout << tree; // Should print the graph using GUI.
 
 
-//     auto n11 = new Node<double>(1.2);
-//     auto n22 = new Node<double>(1.3);
-//     auto n33 = new Node<double>(1.4);
-//     auto n44 = new Node<double>(1.5);
-//     auto n55 = new Node<double>(1.6);
+    auto n11 = new Node<double>(1.2);
+    auto n22 = new Node<double>(1.3);
+    auto n33 = new Node<double>(1.4);
+    auto n44 = new Node<double>(1.5);
+    auto n55 = new Node<double>(1.6);
 
-//     auto root_nodee = new Node<double>(1.1);
+    auto root_nodee = new Node<double>(1.1);
     Tree<double,3> three_ary_tree; // 3-ary tree.
-//     three_ary_tree.add_root(root_nodee);
-//     three_ary_tree.add_sub_node(root_nodee, n11);
-//     three_ary_tree.add_sub_node(root_nodee, n22);
-//     three_ary_tree.add_sub_node(root_nodee, n33);
-//     three_ary_tree.add_sub_node(n11, n44);
-//     three_ary_tree.add_sub_node(n22, n55);
-//     three_ary_tree.print(); // Should print the tree using GUI.
+    three_ary_tree.add_root(root_nodee);
+    three_ary_tree.add_sub_node(root_nodee, n11);
+    three_ary_tree.add_sub_node(root_nodee, n22);
+    three_ary_tree.add_sub_node(root_nodee, n33);
+    three_ary_tree.add_sub_node(n11, n44);
+    three_ary_tree.add_sub_node(n22, n55);
+    three_ary_tree.display(); // Should print the tree using GUI.
 
 //     // std::cout << "pre-order: ";
 //     //     for (auto node = three_ary_tree.begin_pre_order(); node != three_ary_tree.end_pre_order(); ++node) {
@@ -191,5 +182,5 @@ int main()
 //      *   /        |
 //      *  1.5      1.6
 //      */
-    
+    return 0;
 }
