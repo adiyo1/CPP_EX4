@@ -46,7 +46,7 @@ public:
             throw std::runtime_error("Cannot add more children to this node.");
         }
     }
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow &window);
     void display();
 
     // void add_root(Node<T> *node);
@@ -78,7 +78,8 @@ public:
                 return *this;
             if (K > 2)
             {
-                throw std::runtime_error("Operator pre-order can work only on a binary tree.");
+                DFSIterator(*root);
+                // throw std::runtime_error("Operator in-order can work only on a binary tree.");
             }
             Node<T> *node = nodes.top();
             nodes.pop();
@@ -111,7 +112,9 @@ public:
         {
             if (K > 2)
             {
-                throw std::runtime_error("Operator in-order can work only on a binary tree.");
+                DFSIterator(*root);
+                return;
+                // throw std::runtime_error("Operator in-order can work only on a binary tree.");
             }
             if (root)
             {
@@ -160,16 +163,22 @@ public:
     public:
         InOrderIterator(Node<T> *root)
         {
-            while (current)
+            if (K > 2)
             {
-                nodes.push(current);
-                if (!current->children.empty())
+                DFSIterator(*root);
+                // return;
+                // throw std::runtime_error("Operator in-order can work only on a binary tree.");
+            }
+            while (root)
+            {
+                nodes.push(root);
+                if (!root->children.empty())
                 {
-                    current = current->children[0];
+                    root = root->children[0];
                 }
                 else
                 {
-                    current = nullptr;
+                    root = nullptr;
                 }
             }
         }
@@ -183,7 +192,9 @@ public:
                 return *this;
             if (K > 2)
             {
-                throw std::runtime_error("Operator in-order can work only on a binary tree.");
+                DFSIterator(*root);
+                // return ;
+                // throw std::runtime_error("Operator in-order can work only on a binary tree.");
             }
             Node<T> *node = nodes.top();
             nodes.pop();
@@ -207,10 +218,12 @@ public:
 
             return *this;
         }
-        Node<T> *operator*(){
+        Node<T> *operator*()
+        {
             return nodes.top();
         }
-        T get_value() const{
+        T get_value() const
+        {
             return nodes.top()->key;
         }
     };
@@ -221,17 +234,19 @@ public:
         std::queue<Node<T> *> nodes;
 
     public:
-        BFSIterator(Node<T> *root){
+        BFSIterator(Node<T> *root)
+        {
             if (root != nullptr)
             {
                 nodes.push(root);
             }
         }
-        bool operator!=(const BFSIterator &other) const{
+        bool operator!=(const BFSIterator &other) const
+        {
             return !nodes.empty() || !other.nodes.empty();
-        
         }
-        BFSIterator &operator++(){
+        BFSIterator &operator++()
+        {
             if (nodes.empty())
                 return *this;
             Node<T> *node = nodes.front();
@@ -242,10 +257,12 @@ public:
             }
             return *this;
         }
-        Node<T> *operator*(){
+        Node<T> *operator*()
+        {
             return nodes.front();
         }
-        T get_value() const{
+        T get_value() const
+        {
             return nodes.front()->key;
         }
     };
@@ -255,16 +272,19 @@ public:
         std::stack<Node<T> *> nodes;
 
     public:
-        DFSIterator(Node<T> *root){
+        DFSIterator(Node<T> *root)
+        {
             if (root != nullptr)
             {
                 nodes.push(root);
             }
         }
-        bool operator!=(const DFSIterator &other) const{
+        bool operator!=(const DFSIterator &other) const
+        {
             return !nodes.empty() || !other.nodes.empty();
         }
-        DFSIterator &operator++(){
+        DFSIterator &operator++()
+        {
             if (nodes.empty())
                 return *this;
             Node<T> *node = nodes.top();
@@ -275,107 +295,163 @@ public:
             }
             return *this;
         }
-        Node<T> *operator*(){
+        Node<T> *operator*()
+        {
             return nodes.top();
         }
-        T get_value() const{
+        T get_value() const
+        {
             return nodes.top()->key;
         }
     };
 
-
-    class HeapIterator {
+    class HeapIterator
+    {
     private:
-        std::vector<Node<T>*> heap;
+        std::vector<Node<T> *> heap;
 
-        void heapify(Node<T>* node) {
-            if (!node) return;
+        void heapify(Node<T> *node)
+        {
+            if (!node)
+                return;
             heap.push_back(node);
-            for (auto& child : node->children) {
-                heapify(child.get());
+            for (auto &child : node->children)
+            {
+                heapify(child);
             }
         }
 
-        void build_min_heap() {
-            for (int i = heap.size() / 2 - 1; i >= 0; --i) {
+        void build_min_heap()
+        {
+            for (int i = heap.size() / 2 - 1; i >= 0; --i)
+            {
                 min_heapify(i);
             }
         }
 
-        void min_heapify(int i) {
+        void min_heapify(int i)
+        {
             int smallest = i;
             int left = 2 * i + 1;
             int right = 2 * i + 2;
 
-            if (left < heap.size() && heap[left]->key < heap[smallest]->key) {
+            if (left < heap.size() && heap[left]->key < heap[smallest]->key)
+            {
                 smallest = left;
             }
 
-            if (right < heap.size() && heap[right]->key < heap[smallest]->key) {
+            if (right < heap.size() && heap[right]->key < heap[smallest]->key)
+            {
                 smallest = right;
             }
 
-            if (smallest != i) {
+            if (smallest != i)
+            {
                 std::swap(heap[i], heap[smallest]);
                 min_heapify(smallest);
             }
         }
 
     public:
-        HeapIterator(Node<T>* root) {
+        HeapIterator(Node<T> *root)
+        {
             heapify(root);
             build_min_heap();
         }
 
-        bool operator!=(const HeapIterator& other) const {
+        bool operator!=(const HeapIterator &other) const
+        {
             return !heap.empty() || !other.heap.empty();
         }
 
-        HeapIterator& operator++() {
-            if (heap.empty()) return *this;
+        HeapIterator &operator++()
+        {
+            if (heap.empty())
+                return *this;
 
-            std::pop_heap(heap.begin(), heap.end(), [](Node<T>* a, Node<T>* b) {
-                return a->key > b->key;
-            });
+            std::pop_heap(heap.begin(), heap.end(), [](Node<T> *a, Node<T> *b)
+                          { return a->key > b->key; });
             heap.pop_back();
 
             return *this;
         }
-            Node<T>* operator*() {
+        Node<T> *operator*()
+        {
             return heap.front();
         }
 
-        T get_value() const {
+        T get_value() const
+        {
             return heap.front()->key;
         }
     };
 
-    PreOrderIterator begin_preorder() {
-        return PreOrderIterator(root.get());
+    PreOrderIterator begin_preorder()
+    {
+        return PreOrderIterator(root);
     }
 
-    PreOrderIterator end_preorder() {
+    PreOrderIterator end_preorder()
+    {
         return PreOrderIterator(nullptr);
     }
 
-    HeapIterator begin_heap() {
-        return HeapIterator(root.get());
+    PostOrderIterator begin_post_order()
+    {
+        return PostOrderIterator(root);
+    }
+    PostOrderIterator end_post_order()
+    {
+        return PostOrderIterator(nullptr);
     }
 
-    HeapIterator end_heap() {
+    InOrderIterator begin_in_order()
+    {
+        return InOrderIterator(root);
+    }
+    InOrderIterator end_in_order()
+    {
+        return InOrderIterator(nullptr);
+    }
+
+    BFSIterator begin_bfs_scan()
+    {
+        return BFSIterator(root);
+    }
+    BFSIterator end_bfs_scan()
+    {
+        return BFSIterator(nullptr);
+    }
+    DFSIterator begin_dfs_scan()
+    {
+        return DFSIterator(root);
+    }
+    DFSIterator end_dfs_scan()
+    {
+        return DFSIterator(nullptr);
+    }
+
+    HeapIterator begin_heap()
+    {
+        return HeapIterator(root);
+    }
+
+    HeapIterator end_heap()
+    {
         return HeapIterator(nullptr);
     }
 
-    
 private:
     // std::unique_ptr<Node<T>> root;
     size_t maxChildren;
 
-    void draw(sf::RenderWindow& window, Node<T>* node, float x, float y, float offset, sf::Font& font);    void print(Node<T>* node, int depth) const;
+    void draw(sf::RenderWindow &window, Node<T> *node, float x, float y, float offset, sf::Font &font);
+    void print(Node<T> *node, int depth) const;
 };
 
 template <typename T, size_t K>
-void Tree<T, K>::draw(sf::RenderWindow& window, Node<T>* node, float x, float y, float offset, sf::Font& font) {
+void Tree<T, K>::draw(sf::RenderWindow &window, Node<T> *node, float x, float y, float offset, sf::Font &font)
+{
     if (!node)
         return;
 
@@ -393,12 +469,12 @@ void Tree<T, K>::draw(sf::RenderWindow& window, Node<T>* node, float x, float y,
     window.draw(text);
 
     float child_y = y + 80;
-    for (auto& child : node->children) {
+    for (auto &child : node->children)
+    {
         float child_x = x + offset * (&child - &node->children[0] - node->children.size() / 2.0);
         sf::Vertex line[] = {
             sf::Vertex(sf::Vector2f(x + 20, y + 20)),
-            sf::Vertex(sf::Vector2f(child_x + 20, child_y + 20))
-        };
+            sf::Vertex(sf::Vector2f(child_x + 20, child_y + 20))};
 
         window.draw(line, 2, sf::Lines);
         draw(window, child, child_x, child_y, offset / 2.0, font);
@@ -406,9 +482,11 @@ void Tree<T, K>::draw(sf::RenderWindow& window, Node<T>* node, float x, float y,
 }
 
 template <typename T, size_t K>
-void Tree<T, K>::draw(sf::RenderWindow& window) {
+void Tree<T, K>::draw(sf::RenderWindow &window)
+{
     sf::Font font;
-    if (!font.loadFromFile("arial.ttf")) {
+    if (!font.loadFromFile("arial.ttf"))
+    {
         std::cerr << "Failed to load font" << std::endl;
         return;
     }
@@ -417,11 +495,14 @@ void Tree<T, K>::draw(sf::RenderWindow& window) {
 }
 
 template <typename T, size_t K>
-void Tree<T, K>::display() {
+void Tree<T, K>::display()
+{
     sf::RenderWindow window(sf::VideoMode(800, 600), "Tree Visualization");
-    while (window.isOpen()) {
+    while (window.isOpen())
+    {
         sf::Event event;
-        while (window.pollEvent(event)) {
+        while (window.pollEvent(event))
+        {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
@@ -432,54 +513,49 @@ void Tree<T, K>::display() {
     }
 }
 
+// class HeapIterator
+// {
+// private:
+//     std::vector<Node<T> *> nodes;
+// public:
+//     HeapIterator(Node<T> *root){
+//         if (root != nullptr)
+//         {
+//             nodes.push_back(root);
+//         }
+//     }
+//     bool operator!=(const HeapIterator &other) const{
+//         return !nodes.empty() || !other.nodes.empty();
+//     }
+//     HeapIterator &operator++(){
+//         if (nodes.empty())
+//             return *this;
+//         Node<T> *node = nodes.front();
+//         nodes.erase(nodes.begin());
+//         for (auto child : node->children)
+//         {
+//             nodes.push_back(child);
+//         }
+//         return *this;
+//     }
+//     Node<T> *operator*(){
+//         return nodes.front();
+//     }
+//     T get_value() const{
+//         return nodes.front()->key;
+//     }
+// };
 
-    // class HeapIterator
-    // {
-    // private:
-    //     std::vector<Node<T> *> nodes;
-    // public:
-    //     HeapIterator(Node<T> *root){
-    //         if (root != nullptr)
-    //         {
-    //             nodes.push_back(root);
-    //         }
-    //     }
-    //     bool operator!=(const HeapIterator &other) const{
-    //         return !nodes.empty() || !other.nodes.empty();
-    //     }
-    //     HeapIterator &operator++(){
-    //         if (nodes.empty())
-    //             return *this;
-    //         Node<T> *node = nodes.front();
-    //         nodes.erase(nodes.begin());
-    //         for (auto child : node->children)
-    //         {
-    //             nodes.push_back(child);
-    //         }
-    //         return *this;
-    //     }
-    //     Node<T> *operator*(){
-    //         return nodes.front();
-    //     }
-    //     T get_value() const{
-    //         return nodes.front()->key;
-    //     }
-    // };
-
-
-
-
-
-    // PreOrderIterator begin_pre_order();
-    // PreOrderIterator end_pre_order();
-    // PostOrderIterator begin_post_order();
-    // PostOrderIterator end_post_order();
-    // InOrderIterator begin_in_order();
-    // InOrderIterator end_in_order();
-    // BFSIterator begin_bfs_scan();
-    // BFSIterator end_bfs_scan();
-    // DFSIterator begin_dfs_scan();
-    // DFSIterator end_dfs_scan();
+// PreOrderIterator begin_pre_order();
+// PreOrderIterator end_pre_order();
+// PostOrderIterator begin_post_order();
+// PostOrderIterator end_post_order();
+// InOrderIterator begin_in_order();
+// InOrderIterator end_in_order();
+// BFSIterator begin_bfs_scan();
+// BFSIterator end_bfs_scan();
+// DFSIterator begin_dfs_scan();
+// DFSIterator end_dfs_scan();
 // };
 
 #include "Tree.cpp"

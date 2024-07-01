@@ -74,41 +74,53 @@ int main()
      *   /  \      /
      *  1.4  1.5  1.6
      */
-//     cout << "pre-order: " << endl;
-//     for (auto node = tree.begin_pre_order(); node != tree.end_pre_order(); ++node)
-//     {        
-//         cout << node.get_value()<<", ";        
-//     } // prints: 1.1, 1.2, 1.4, 1.5, 1.3, 1.6
-//      std::cout << std::endl;
 
-//     cout << "post-order: " << endl;
-//     for (auto node = tree.begin_post_order(); node != tree.end_post_order(); ++node)
-//     {
-//         cout << node.get_value()<<", ";   
-//     } // prints: 1.4, 1.5, 1.2, 1.6, 1.3, 1.1
-//     std::cout << std::endl;
+    cout << "binary tree iterators " << endl;
 
-//     cout << "in-order: " << endl;
-//     for (auto node = tree.begin_in_order(); node != tree.end_in_order(); ++node)
-//     {
-//         cout << node.get_value()<<", "; 
-//     } // prints: 1.4, 1.2, 1.5, 1.1, 1.6, 1.3
-//     std::cout << std::endl;
+    cout << "pre-order: " << endl;
+    for (auto node = tree.begin_preorder(); node != tree.end_preorder(); ++node)
+    {        
+        cout << node.get_value()<<", ";        
+    } // prints: 1.1, 1.2, 1.4, 1.5, 1.3, 1.6
+     std::cout << std::endl;
 
-//     cout << "BFS: " << endl;
-//     for (auto node = tree.begin_bfs_scan(); node != tree.end_bfs_scan(); ++node)
-//     {
-//         cout << node.get_value()<<", ";
-//     } // prints: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
-//     std::cout << std::endl;
+    cout << "post-order: " << endl;
+    for (auto node = tree.begin_post_order(); node != tree.end_post_order(); ++node)
+    {
+        cout << node.get_value()<<", ";   
+    } // prints: 1.4, 1.5, 1.2, 1.6, 1.3, 1.1
+    std::cout << std::endl;
 
-//     cout << "DFS: " << endl;
-//     for (auto node = tree.begin_dfs_scan(); node != tree.end_dfs_scan(); ++node) 
-//     {
-//         cout << node.get_value()<<", ";
-//     } // prints: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
-//     std::cout << std::endl;
+    cout << "in-order: " << endl;
+    for (auto node = tree.begin_in_order(); node != tree.end_in_order(); ++node)
+    {
+        cout << node.get_value()<<", "; 
+    } // prints: 1.4, 1.2, 1.5, 1.1, 1.6, 1.3
+    std::cout << std::endl;
 
+    cout << "BFS: " << endl;
+    for (auto node = tree.begin_bfs_scan(); node != tree.end_bfs_scan(); ++node)
+    {
+        cout << node.get_value()<<", ";
+    } // prints: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
+    std::cout << std::endl;
+
+    cout << "DFS: " << endl;
+    for (auto node = tree.begin_dfs_scan(); node != tree.end_dfs_scan(); ++node) 
+    {
+        cout << node.get_value()<<", ";
+    } // prints: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6
+    std::cout << std::endl;
+
+
+    
+    cout << "Heapify: " << endl;
+    for(auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
+    {
+        cout << node.get_value()<<", ";
+    }
+    std::cout << std::endl;
+//     // tree.print(); // Should print the tree using GUI.
 
 //     tree.build_min_heap();
 
@@ -137,50 +149,58 @@ int main()
     three_ary_tree.add_sub_node(root_nodee, n33);
     three_ary_tree.add_sub_node(n11, n44);
     three_ary_tree.add_sub_node(n22, n55);
-    three_ary_tree.display(); // Should print the tree using GUI.
+    // three_ary_tree.display(); // Should print the tree using GUI.
 
-//     // std::cout << "pre-order: ";
-//     //     for (auto node = three_ary_tree.begin_pre_order(); node != three_ary_tree.end_pre_order(); ++node) {
-//     //         std::cout << node.get_value()<<", ";
-//     //     }
-//     //     std::cout << std::endl;
 
-//     // std::cout << "post-order: ";
-//     // for (auto node = three_ary_tree.begin_post_order(); node != three_ary_tree.end_post_order(); ++node) {
-//     //     std::cout << node.get_value()<<", ";
-//     // }
-//     // std::cout << std::endl;
+    std::cout << "3-ary tree iterators " << std::endl;
+    std::cout << "pre-order: ";
+        for (auto node = three_ary_tree.begin_preorder(); node != three_ary_tree.end_preorder(); ++node) {
+            std::cout << node.get_value()<<", ";
+        }
+        std::cout << std::endl;
 
-//     // std::cout << "in-order: ";
-//     // for (auto node = three_ary_tree.begin_in_order(); node != three_ary_tree.end_in_order(); ++node) {
-//     //     std::cout << node.get_value()<<", ";
-//     // 
-//     // }
-//     // std::cout << std::endl;
+    std::cout << "post-order: ";
+    for (auto node = three_ary_tree.begin_post_order(); node != three_ary_tree.end_post_order(); ++node) {
+        std::cout << node.get_value()<<", ";
+    }
+    std::cout << std::endl;
 
-//     std::cout << "bfs-order: ";
-//     for (auto node = three_ary_tree.begin_bfs_scan(); node != three_ary_tree.end_bfs_scan(); ++node) {
-//         std::cout << node.get_value()<<", ";
+    // std::cout << "in-order: ";
+    // for (auto node = three_ary_tree.begin_in_order(); node != three_ary_tree.end_in_order(); ++node) {
+    //     std::cout << node.get_value()<<", ";
+    
+    // }
+    // std::cout << std::endl;
+
+    // std::cout << "bfs-order: ";
+    // for (auto node = three_ary_tree.begin_bfs_scan(); node != three_ary_tree.end_bfs_scan(); ++node) {
+    //     std::cout << node.get_value()<<", ";
         
-//     }
-//     std::cout << std::endl;
+    // }
+    // std::cout << std::endl;
 
-//     std::cout << "DFS: ";
-//     for (auto node = three_ary_tree.begin_dfs_scan(); node != three_ary_tree.end_dfs_scan(); ++node) {
-//         std::cout << node.get_value()<<", ";
+    std::cout << "DFS: ";
+    for (auto node = three_ary_tree.begin_dfs_scan(); node != three_ary_tree.end_dfs_scan(); ++node) {
+        std::cout << node.get_value()<<", ";
         
-//     }
-//     std::cout << std::endl;
+    }
+    std::cout << std::endl;
 
+    std::cout << "Heapify: ";
+    for(auto node = three_ary_tree.begin_heap(); node != three_ary_tree.end_heap(); ++node)
+    {
+        cout << node.get_value()<<", ";
+    }
+    std::cout << std::endl;
     
 
-//      // The tree should look like:
-//     /**
-//      *       root = 1.1
-//      *     /      |     \
-//      *    1.2    1.3    1.4
-//      *   /        |
-//      *  1.5      1.6
-//      */
+     // The tree should look like:
+    /**
+     *       root = 1.1
+     *     /      |     \
+     *    1.2    1.3    1.4
+     *   /        |
+     *  1.5      1.6
+     */
     return 0;
 }
