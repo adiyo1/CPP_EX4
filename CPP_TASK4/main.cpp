@@ -6,31 +6,82 @@
 #include "Node.hpp"
 #include "Tree.hpp"
 #include <SFML/Graphics.hpp>
+#include "Complex.hpp"
 
 using namespace std;
 
 int main()
 {
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Tree Visualization");
+    // sf::RenderWindow window(sf::VideoMode(800, 600), "Tree Visualization");
     // Tree<double,3> three_ary_tree; // 3-ary tree.
-    Tree<double> tree;
-    auto root_node = new Node<double>(1.1);
+    // Tree<double> tree;
+    // auto root_node = new Node<double>(1.1);
     
+    // tree.add_root(root_node);
+
+    // auto n1 = new Node<double>(1.2);
+    // auto n2 = new Node<double>(1.3);
+    // auto n3 = new Node<double>(1.4);
+    // auto n4 = new Node<double>(1.5);
+    // auto n5 = new Node<double>(1.6);
+
+    // tree.add_sub_node(root_node, n1);
+    // tree.add_sub_node(root_node, n2);
+    // tree.add_sub_node(n1, n3);
+    // tree.add_sub_node(n1, n4);
+    // tree.add_sub_node(n2, n5);
+    // // tree.display();
+    // Tree<string> tree;
+    // auto root_node = new Node<string>("a");
+    // tree.add_root(root_node);
+
+    // Tree<string,3> tree;
+    // auto root_node = new Node<string>("a");
+    // tree.add_root(root_node);
+
+    // auto n1 = new Node<string>("b");
+    // auto n2 = new Node<string>("c");
+    // auto n3 = new Node<string>("d");
+    // auto n4 = new Node<string>("e");
+    // auto n5 = new Node<string>("f");
+    // auto n6 = new Node<string>("g");
+    // auto n7 = new Node<string>("h");
+    // auto n8 = new Node<string>("i");
+
+    // tree.add_sub_node(root_node, n1);
+    // tree.add_sub_node(root_node, n2);
+    // tree.add_sub_node(root_node, n3);
+    // tree.add_sub_node(n1, n4);
+    // tree.add_sub_node(n1, n5);
+    // tree.add_sub_node(n1, n6);
+    // tree.add_sub_node(n3, n7);
+    // tree.add_sub_node(n3, n8);
+
+    // tree.display();
+
+    
+    Tree<Complex,3> tree;
+    auto root_node = new Node<Complex>(Complex(1, 1));
     tree.add_root(root_node);
 
-    auto n1 = new Node<double>(1.2);
-    auto n2 = new Node<double>(1.3);
-    auto n3 = new Node<double>(1.4);
-    auto n4 = new Node<double>(1.5);
-    auto n5 = new Node<double>(1.6);
+    auto n1 = new Node<Complex>(Complex(1, 2));
+    auto n2 = new Node<Complex>(Complex(1, 3));
+    auto n3 = new Node<Complex>(Complex(1, 4));
+    auto n4 = new Node<Complex>(Complex(1, 5));
+    auto n5 = new Node<Complex>(Complex(1, 6));
+    auto n6 = new Node<Complex>(Complex(1, 7));
 
     tree.add_sub_node(root_node, n1);
     tree.add_sub_node(root_node, n2);
-    tree.add_sub_node(n1, n3);
+    tree.add_sub_node(root_node, n3);
     tree.add_sub_node(n1, n4);
-    tree.add_sub_node(n2, n5);
+    tree.add_sub_node(n1, n5);
+    tree.add_sub_node(n1, n6);
     tree.display();
+
+
+    
 
     //  tree.print(); // Should print the tree using GUI.
 
@@ -114,12 +165,14 @@ int main()
 
 
     
-    cout << "Heapify: " << endl;
-    for(auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
-    {
-        cout << node.get_value()<<", ";
-    }
-    std::cout << std::endl;
+    // cout << "Heapify: " << endl;
+    // for(auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
+    // {
+    //     cout << node.get_value()<<", ";
+    // }
+    // std::cout << std::endl;
+
+    
 //     // tree.print(); // Should print the tree using GUI.
 
 //     tree.build_min_heap();

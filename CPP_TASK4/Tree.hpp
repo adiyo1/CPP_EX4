@@ -9,6 +9,7 @@
 #include <stack>
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include "Complex.hpp"
 
 // template<typename T>
 // class Tree {
@@ -312,12 +313,12 @@ public:
     private:
         std::vector<Node<T> *> heap;
 
-        void heapify(Node<T> *node)
+        void heapify(Node<T>* node)
         {
             if (!node)
                 return;
             heap.push_back(node);
-            for (auto &child : node->children)
+            for (auto& child : node->children)
             {
                 heapify(child);
             }
@@ -334,8 +335,8 @@ public:
         void min_heapify(int i)
         {
             int smallest = i;
-            size_t left = 2 * i + 1;
-            size_t right = 2 * i + 2;
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
 
             if (left < heap.size() && heap[left]->key < heap[smallest]->key)
             {
@@ -355,29 +356,29 @@ public:
         }
 
     public:
-        HeapIterator(Node<T> *root)
+        HeapIterator(Node<T>* root)
         {
             heapify(root);
             build_min_heap();
         }
 
-        bool operator!=(const HeapIterator &other) const
+        bool operator!=(const HeapIterator& other) const
         {
             return !heap.empty() || !other.heap.empty();
         }
 
-        HeapIterator &operator++()
+        HeapIterator& operator++()
         {
             if (heap.empty())
                 return *this;
 
-            std::pop_heap(heap.begin(), heap.end(), [](Node<T> *a, Node<T> *b)
+            std::pop_heap(heap.begin(), heap.end(), [](Node<T>* a, Node<T>* b)
                           { return a->key > b->key; });
             heap.pop_back();
 
             return *this;
         }
-        Node<T> *operator*()
+        Node<T>* operator*()
         {
             return heap.front();
         }
@@ -515,7 +516,13 @@ void Tree<T, K>::draw(sf::RenderWindow &window, Node<T> *node, float x, float y,
 
     sf::Text text;
     text.setFont(font);
-    text.setString(std::to_string(node->key));
+    if constexpr (std::is_same_v<T, std::string>) {
+        text.setString(node->key);
+    } else if constexpr (std::is_same_v<T, Complex>) {
+        text.setString(node->key.to_string());
+    } else {
+        text.setString(std::to_string(node->key));
+    }
     text.setCharacterSize(14);
     text.setFillColor(sf::Color::Black);
     text.setPosition(x + 10, y + 10);
