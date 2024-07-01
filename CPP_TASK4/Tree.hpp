@@ -74,13 +74,13 @@ public:
         }
         PreOrderIterator &operator++()
         {
-            if (nodes.empty())
-                return *this;
-            if (K > 2)
-            {
-                DFSIterator(*root);
-                // throw std::runtime_error("Operator in-order can work only on a binary tree.");
-            }
+            // if (nodes.empty())
+            //     return *this;
+            // if (K > 2)
+            // {
+            //     DFSIterator(*root);
+            //     // throw std::runtime_error("Operator in-order can work only on a binary tree.");
+            // }
             Node<T> *node = nodes.top();
             nodes.pop();
 
@@ -104,18 +104,11 @@ public:
     class PostOrderIterator
     {
     private:
-        std::stack<Node<T> *> nodes;
         std::stack<Node<T> *> output;
 
     public:
         PostOrderIterator(Node<T> *root)
         {
-            if (K > 2)
-            {
-                DFSIterator(*root);
-                return;
-                // throw std::runtime_error("Operator in-order can work only on a binary tree.");
-            }
             if (root)
             {
                 std::stack<Node<T> *> temp;
@@ -125,29 +118,38 @@ public:
                     Node<T> *node = temp.top();
                     temp.pop();
                     output.push(node);
-                    for (auto child : node->children)
+                    for (auto &child : node->children)
                     {
                         temp.push(child);
                     }
                 }
             }
         }
+
         bool operator!=(const PostOrderIterator &other) const
         {
             return !output.empty() || !other.output.empty();
         }
+
         PostOrderIterator &operator++()
         {
+            // if (K > 2)
+            // {
+            //     DFSIterator(*root);
+            //     // throw std::runtime_error("Operator in-order can work only on a binary tree.");
+            // }
             if (!output.empty())
             {
                 output.pop();
             }
             return *this;
         }
+
         Node<T> *operator*()
         {
             return output.top();
         }
+
         T get_value() const
         {
             return output.top()->key;
@@ -163,12 +165,12 @@ public:
     public:
         InOrderIterator(Node<T> *root)
         {
-            if (K > 2)
-            {
-                DFSIterator(*root);
-                // return;
-                // throw std::runtime_error("Operator in-order can work only on a binary tree.");
-            }
+            // if (K > 2)
+            // {
+            //     DFSIterator(*root);
+            //     // return;
+            //     // throw std::runtime_error("Operator in-order can work only on a binary tree.");
+            // }
             while (root)
             {
                 nodes.push(root);
@@ -188,14 +190,14 @@ public:
         }
         InOrderIterator &operator++()
         {
-            if (nodes.empty())
-                return *this;
-            if (K > 2)
-            {
-                DFSIterator(*root);
-                // return ;
-                // throw std::runtime_error("Operator in-order can work only on a binary tree.");
-            }
+            // if (nodes.empty())
+            //     return *this;
+            // if (K > 2)
+            // {
+            //     DFSIterator(*root);
+            //     // return ;
+            //     // throw std::runtime_error("Operator in-order can work only on a binary tree.");
+            // }
             Node<T> *node = nodes.top();
             nodes.pop();
 
@@ -332,8 +334,8 @@ public:
         void min_heapify(int i)
         {
             int smallest = i;
-            int left = 2 * i + 1;
-            int right = 2 * i + 2;
+            size_t left = 2 * i + 1;
+            size_t right = 2 * i + 2;
 
             if (left < heap.size() && heap[left]->key < heap[smallest]->key)
             {
@@ -386,32 +388,83 @@ public:
         }
     };
 
-    PreOrderIterator begin_preorder()
+    auto begin_preorder() const
     {
-        return PreOrderIterator(root);
+        if constexpr (K == 2)
+        {
+            return PreOrderIterator(root);
+        }
+
+        else
+        {
+            return DFSIterator(root);
+        }
     }
 
-    PreOrderIterator end_preorder()
+    auto end_preorder()
     {
-        return PreOrderIterator(nullptr);
+        if constexpr (K == 2)
+        {
+            return PreOrderIterator(nullptr);
+        }
+        else
+        {
+            return DFSIterator(nullptr);
+        }
+        
     }
 
-    PostOrderIterator begin_post_order()
+    auto begin_post_order()
     {
-        return PostOrderIterator(root);
+        if constexpr (K == 2)
+        {
+            return PostOrderIterator(root);
+        }
+        else
+        {
+            return DFSIterator(root);
+        }
+        
     }
-    PostOrderIterator end_post_order()
+    auto end_post_order()
     {
-        return PostOrderIterator(nullptr);
+        if constexpr (K == 2)
+        {
+            return PostOrderIterator(nullptr);
+        }
+        else
+        {
+            return DFSIterator(nullptr);
+        }
+        //     return PostOrderIterator(nullptr);
+        // return DFSIterator(nullptr);
     }
 
-    InOrderIterator begin_in_order()
+    auto begin_in_order()
     {
-        return InOrderIterator(root);
+        if constexpr (K == 2)
+        {
+            return InOrderIterator(root);
+        }
+        else
+        {
+            return DFSIterator(root);
+        }
+        //     return InOrderIterator(root);
+        // return DFSIterator(root);
     }
-    InOrderIterator end_in_order()
+    auto end_in_order()
     {
-        return InOrderIterator(nullptr);
+        if constexpr (K == 2)
+        {
+            return InOrderIterator(nullptr);
+        }
+        else
+        {
+            return DFSIterator(nullptr);
+        }
+        //     return InOrderIterator(nullptr);
+        // return DFSIterator(nullptr);
     }
 
     BFSIterator begin_bfs_scan()
@@ -464,7 +517,7 @@ void Tree<T, K>::draw(sf::RenderWindow &window, Node<T> *node, float x, float y,
     text.setFont(font);
     text.setString(std::to_string(node->key));
     text.setCharacterSize(14);
-    text.setFillColor(sf::Color::White);
+    text.setFillColor(sf::Color::Black);
     text.setPosition(x + 10, y + 10);
     window.draw(text);
 
@@ -473,7 +526,7 @@ void Tree<T, K>::draw(sf::RenderWindow &window, Node<T> *node, float x, float y,
     {
         float child_x = x + offset * (&child - &node->children[0] - node->children.size() / 2.0);
         sf::Vertex line[] = {
-            sf::Vertex(sf::Vector2f(x + 20, y + 20)),
+            sf::Vertex(sf::Vector2f(x + 20, y + 20), sf::Color::Black),
             sf::Vertex(sf::Vector2f(child_x + 20, child_y + 20))};
 
         window.draw(line, 2, sf::Lines);

@@ -30,7 +30,7 @@ int main()
     tree.add_sub_node(n1, n3);
     tree.add_sub_node(n1, n4);
     tree.add_sub_node(n2, n5);
-    // tree.display();
+    tree.display();
 
     //  tree.print(); // Should print the tree using GUI.
 
@@ -165,12 +165,12 @@ int main()
     }
     std::cout << std::endl;
 
-    // std::cout << "in-order: ";
-    // for (auto node = three_ary_tree.begin_in_order(); node != three_ary_tree.end_in_order(); ++node) {
-    //     std::cout << node.get_value()<<", ";
+    std::cout << "in-order: ";
+    for (auto node = three_ary_tree.begin_in_order(); node != three_ary_tree.end_in_order(); ++node) {
+        std::cout << node.get_value()<<", ";
     
-    // }
-    // std::cout << std::endl;
+    }
+    std::cout << std::endl;
 
     // std::cout << "bfs-order: ";
     // for (auto node = three_ary_tree.begin_bfs_scan(); node != three_ary_tree.end_bfs_scan(); ++node) {
