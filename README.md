@@ -31,16 +31,16 @@ This project implements a tree data structure with multiple functionalities, inc
 ### Building the Project
 
 1. Ensure you have the SFML library installed.
-2. Use the provided `Makefile` to build the project:
+2. Clean the project
 
     ```sh
-    make
+    make clean
     ```
 
 3. Run the executable:
 
     ```sh
-    ./tree_example
+    make tree
     ```
 
 ### Example
