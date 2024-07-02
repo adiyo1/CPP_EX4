@@ -1,8 +1,9 @@
+// adi.yohanann@gmail.com
+
 #include "doctest.h"
 #include "Tree.hpp"
 #include "Complex.hpp"
 #include <string>
-
 
 using namespace std;
 
@@ -23,7 +24,6 @@ TEST_CASE("Tree with string: K = 2")
     tree.add_sub_node(n1, n3);
     tree.add_sub_node(n1, n4);
     tree.add_sub_node(n2, n5);
-
 
     SUBCASE("Test 1: Preorder")
     {
@@ -76,16 +76,7 @@ TEST_CASE("Tree with string: K = 2")
         }
         CHECK(expected == actual);
     }
-    // SUBCASE("Test 6: minHeap order") ////////
-    // {
-    //     string expected = "adi, neta, oran, oriya, raanan, shahar, ";
-    //     string actual = "";
-    //     for (auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
-    //     {
-    //         actual += (*node)->key + ", ";
-    //     }
-    //     CHECK(expected == actual);
-    // }
+    
 }
 
 TEST_CASE("Tree with string: K =2")
@@ -160,7 +151,6 @@ TEST_CASE("Tree with string: K =2")
     }
 }
 
-
 TEST_CASE("Test with complex object: K = 2")
 {
     Tree<Complex> tree;
@@ -203,8 +193,8 @@ TEST_CASE("Test with complex object: K = 2")
     }
     SUBCASE("Test 3: Inorder")
     {
-        /////NEED TO CHECK
-        std::string expected = "1.000000 + 4.000000i, 1.000000 + 2.000000i, 1.000000 + 5.000000i, 1.000000 + 1.000000i, 1.000000 + 6.000000i, 1.000000 + 3.000000i, ";///////////
+
+        std::string expected = "1.000000 + 4.000000i, 1.000000 + 2.000000i, 1.000000 + 5.000000i, 1.000000 + 1.000000i, 1.000000 + 6.000000i, 1.000000 + 3.000000i, "; ///////////
         std::string actual = "";
         for (auto node = tree.begin_in_order(); node != tree.end_in_order(); ++node)
         {
@@ -232,16 +222,16 @@ TEST_CASE("Test with complex object: K = 2")
         }
         CHECK(expected == actual);
     }
-    // SUBCASE("Test 6: minHeap order") ////////
-    // {
-    //     std::string expected = "1.000000 + 1.000000i, 1.000000 + 2.000000i, 1.000000 + 3.000000i, 1.000000 + 4.000000i, 1.000000 + 5.000000i, 1.000000 + 6.000000i, ";
-    //     std::string actual = "";
-    //     for (auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
-    //     {
-    //         actual += (*node)->key.to_string() + ", ";
-    //     }
-    //     CHECK(expected == actual);
-    // }    
+    SUBCASE("Test 6: minHeap order") ////////
+    {
+        std::string expected = "1.000000 + 1.000000i, 1.000000 + 2.000000i, 1.000000 + 3.000000i, 1.000000 + 4.000000i, 1.000000 + 5.000000i, 1.000000 + 6.000000i, ";
+        std::string actual = "";
+        for (auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
+        {
+            actual += (*node)->key.to_string() + ", ";
+        }
+        CHECK(expected == actual);
+    }
 }
 
 TEST_CASE("Test with integer: K = 2")
@@ -319,7 +309,7 @@ TEST_CASE("Test with integer: K = 2")
         CHECK(expected == actual);
     }
 
-    SUBCASE("Test 6: minHeap order") ////////    
+    SUBCASE("Test 6: minHeap order") ////////
     {
         string expected = "1, 2, 3, 4, 5, 6, 7, ";
         string actual = "";
@@ -401,11 +391,21 @@ TEST_CASE("Test with complex object: K = 2")
         }
         CHECK(expected == actual);
     }
+    SUBCASE("Test 6: minHeap order") ////////
+    {
+        std::string expected = "1.000000 + 1.000000i, 1.000000 + 2.000000i, 1.000000 + 3.000000i, 1.000000 + 4.000000i, 1.000000 + 5.000000i, 1.000000 + 6.000000i, 1.000000 + 7.000000i, ";
+        std::string actual = "";
+        for (auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
+        {
+            actual += (*node)->key.to_string() + ", ";
+        }
+        CHECK(expected == actual);
+    }
 }
 
 TEST_CASE("Test with string: K = 3")
 {
-    Tree<string,3> tree;
+    Tree<string, 3> tree;
     auto root_node = new Node<string>("a");
     tree.add_root(root_node);
 
@@ -426,7 +426,6 @@ TEST_CASE("Test with string: K = 3")
     tree.add_sub_node(n1, n6);
     tree.add_sub_node(n3, n7);
     tree.add_sub_node(n3, n8);
-
 
     SUBCASE("Test 1: Preorder")
     {
@@ -480,10 +479,9 @@ TEST_CASE("Test with string: K = 3")
     }
 }
 
-
 TEST_CASE("Test with integer: K = 3")
 {
-    Tree<int,3> tree;
+    Tree<int, 3> tree;
     auto root_node = new Node<int>(1);
     tree.add_root(root_node);
 
@@ -551,22 +549,12 @@ TEST_CASE("Test with integer: K = 3")
         }
         CHECK(expected == actual);
     }
-// SUBCASE("Test 6: minHeap order") ////////
-//     {
-//         string expected = "1, 2, 3, 4, 5, 6, 7, ";
-//         string actual = "";
-//         for (auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
-//         {
-//             actual += to_string((*node)->key) + ", ";
-//         }
-//         CHECK(expected == actual);
-//     }
-
+    
 }
 
 TEST_CASE("Test with complex object: K = 3")
 {
-    Tree<Complex,3> tree;
+    Tree<Complex, 3> tree;
     auto root_node = new Node<Complex>(Complex(1, 1));
     tree.add_root(root_node);
 
@@ -598,7 +586,7 @@ TEST_CASE("Test with complex object: K = 3")
     {
         std::string expected = "1.000000 + 1.000000i, 1.000000 + 2.000000i, 1.000000 + 5.000000i, 1.000000 + 6.000000i, 1.000000 + 7.000000i, 1.000000 + 3.000000i, 1.000000 + 4.000000i, ";
         std::string actual = "";
-        for(auto node = tree.begin_post_order(); node != tree.end_post_order(); ++node)
+        for (auto node = tree.begin_post_order(); node != tree.end_post_order(); ++node)
         {
             actual += (*node)->key.to_string() + ", ";
         }
@@ -608,7 +596,7 @@ TEST_CASE("Test with complex object: K = 3")
     {
         std::string expected = "1.000000 + 1.000000i, 1.000000 + 2.000000i, 1.000000 + 5.000000i, 1.000000 + 6.000000i, 1.000000 + 7.000000i, 1.000000 + 3.000000i, 1.000000 + 4.000000i, ";
         std::string actual = "";
-        for(auto node = tree.begin_in_order(); node != tree.end_in_order(); ++node)
+        for (auto node = tree.begin_in_order(); node != tree.end_in_order(); ++node)
         {
             actual += (*node)->key.to_string() + ", ";
         }
@@ -618,7 +606,7 @@ TEST_CASE("Test with complex object: K = 3")
     {
         std::string expected = "1.000000 + 1.000000i, 1.000000 + 2.000000i, 1.000000 + 3.000000i, 1.000000 + 4.000000i, 1.000000 + 5.000000i, 1.000000 + 6.000000i, 1.000000 + 7.000000i, ";
         std::string actual = "";
-        for(auto node = tree.begin_bfs_scan(); node != tree.end_bfs_scan(); ++node)
+        for (auto node = tree.begin_bfs_scan(); node != tree.end_bfs_scan(); ++node)
         {
             actual += (*node)->key.to_string() + ", ";
         }
@@ -628,12 +616,10 @@ TEST_CASE("Test with complex object: K = 3")
     {
         std::string expected = "1.000000 + 1.000000i, 1.000000 + 2.000000i, 1.000000 + 5.000000i, 1.000000 + 6.000000i, 1.000000 + 7.000000i, 1.000000 + 3.000000i, 1.000000 + 4.000000i, ";
         std::string actual = "";
-        for(auto node = tree.begin_dfs_scan(); node != tree.end_dfs_scan(); ++node)
+        for (auto node = tree.begin_dfs_scan(); node != tree.end_dfs_scan(); ++node)
         {
             actual += (*node)->key.to_string() + ", ";
         }
         CHECK(expected == actual);
     }
 }
-
-

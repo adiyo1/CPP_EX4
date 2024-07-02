@@ -1,3 +1,5 @@
+// adi.yohanann@gmail.com
+
 #ifndef TREE_HPP
 #define TREE_HPP
 
@@ -11,34 +13,34 @@
 #include <SFML/Graphics.hpp>
 #include "Complex.hpp"
 
-// template<typename T>
-// class Tree {
-// private:
-//     Node<T>* root;
-//     int max_children;
-
-template <typename T, size_t K = 2>
+template <typename T, size_t K = 2> // default is binary tree
 class Tree
 {
 private:
     Node<T> *root;
-    // void heapify(Node<T> *node);
-    void print_gui(Node<T> *node, int depth);
+    void delete_subtree(Node<T> *node)
+    {
+        if (!node)
+            return;
+        for (auto &child : node->children)
+        {
+            delete_subtree(child); // recursively delete children of the current node
+        }
+        delete node;
+    }
 
 public:
-    // Tree(int max_children = 2);
     Tree() : root(nullptr) {}
-    ~Tree() {}
+    ~Tree() { delete_subtree(root); }
 
     void add_root(Node<T> *node)
     {
-        // root = node;
         root = node;
     }
 
     void add_sub_node(Node<T> *parent, Node<T> *child)
     {
-        if (parent->children.size() < K)
+        if (parent->children.size() < K) // check if the parent has less than K children
         {
             parent->children.push_back(child);
         }
@@ -47,56 +49,49 @@ public:
             throw std::runtime_error("Cannot add more children to this node.");
         }
     }
+    
     void draw(sf::RenderWindow &window);
+    
     void display();
-
-    // void add_root(Node<T> *node);
-    // void add_sub_node(Node<T> *parent, Node<T> *child);
-    // void print();
-    // void print_structure();
-    // void build_min_heap();
 
     class PreOrderIterator
     {
     private:
-        std::stack<Node<T> *> nodes;
+        std::stack<Node<T> *> nodes; // stack to store nodes
 
     public:
-        PreOrderIterator(Node<T> *root)
+        PreOrderIterator(Node<T> *root) // constructor
         {
-            if (root != nullptr)
+            if (root != nullptr) // if the root is not null, push it to the stack
             {
                 nodes.push(root);
             }
         }
+        
         bool operator!=(const PreOrderIterator &other) const
         {
-            return !nodes.empty() || !other.nodes.empty();
+            return !nodes.empty() || !other.nodes.empty(); // check if the stack is empty
         }
-        PreOrderIterator &operator++()
+        
+        PreOrderIterator &operator++() // increment operator
         {
-            // if (nodes.empty())
-            //     return *this;
-            // if (K > 2)
-            // {
-            //     DFSIterator(*root);
-            //     // throw std::runtime_error("Operator in-order can work only on a binary tree.");
-            // }
             Node<T> *node = nodes.top();
             nodes.pop();
 
-            for (auto it = node->children.rbegin(); it != node->children.rend(); ++it)
+            for (auto it = node->children.rbegin(); it != node->children.rend(); ++it) // iterate over the children of the current node
             {
                 nodes.push(*it);
             }
 
-            return *this;
+            return *this; // return the iterator
         }
-        Node<T> *operator*()
+        
+        Node<T> *operator*() // dereference operator
         {
-            return nodes.top();
+            return nodes.top(); // return the top element of the stack
         }
-        T get_value() const
+        
+        T get_value() const // get the value of the node
         {
             return nodes.top()->key;
         }
@@ -105,40 +100,35 @@ public:
     class PostOrderIterator
     {
     private:
-        std::stack<Node<T> *> output;
+        std::stack<Node<T> *> output; // stack to store the output
 
     public:
-        PostOrderIterator(Node<T> *root)
+        PostOrderIterator(Node<T> *root) // constructor
         {
             if (root)
             {
-                std::stack<Node<T> *> temp;
+                std::stack<Node<T> *> temp; // temporary stack
                 temp.push(root);
-                while (!temp.empty())
+                while (!temp.empty()) // iterate over the stack
                 {
-                    Node<T> *node = temp.top();
-                    temp.pop();
-                    output.push(node);
-                    for (auto &child : node->children)
+                    Node<T> *node = temp.top();        // get the top element
+                    temp.pop();                        // pop the top element
+                    output.push(node);                 // push the element to the output stack
+                    for (auto &child : node->children) // iterate over the children of the current node
                     {
-                        temp.push(child);
+                        temp.push(child); // push the children to the temporary stack
                     }
                 }
             }
         }
 
-        bool operator!=(const PostOrderIterator &other) const
+        bool operator!=(const PostOrderIterator &other) const // check if the stack is empty
         {
-            return !output.empty() || !other.output.empty();
+            return !output.empty() || !other.output.empty(); //
         }
 
-        PostOrderIterator &operator++()
+        PostOrderIterator &operator++() // increment operator
         {
-            // if (K > 2)
-            // {
-            //     DFSIterator(*root);
-            //     // throw std::runtime_error("Operator in-order can work only on a binary tree.");
-            // }
             if (!output.empty())
             {
                 output.pop();
@@ -146,7 +136,7 @@ public:
             return *this;
         }
 
-        Node<T> *operator*()
+        Node<T> *operator*() // dereference operator
         {
             return output.top();
         }
@@ -164,20 +154,14 @@ public:
         Node<T> *current;
 
     public:
-        InOrderIterator(Node<T> *root)
+        InOrderIterator(Node<T> *root) // constructor
         {
-            // if (K > 2)
-            // {
-            //     DFSIterator(*root);
-            //     // return;
-            //     // throw std::runtime_error("Operator in-order can work only on a binary tree.");
-            // }
-            while (root)
+            while (root) // iterate over the tree
             {
                 nodes.push(root);
-                if (!root->children.empty())
+                if (!root->children.empty()) // check if the node has children
                 {
-                    root = root->children[0];
+                    root = root->children[0]; // get the first child
                 }
                 else
                 {
@@ -185,27 +169,21 @@ public:
                 }
             }
         }
-        bool operator!=(const InOrderIterator &other) const
+        
+        bool operator!=(const InOrderIterator &other) const // check if the stack is empty
         {
             return !nodes.empty() || !other.nodes.empty();
         }
-        InOrderIterator &operator++()
+        
+        InOrderIterator &operator++() // increment operator
         {
-            // if (nodes.empty())
-            //     return *this;
-            // if (K > 2)
-            // {
-            //     DFSIterator(*root);
-            //     // return ;
-            //     // throw std::runtime_error("Operator in-order can work only on a binary tree.");
-            // }
             Node<T> *node = nodes.top();
             nodes.pop();
 
             if (!node->children.empty())
             {
-                Node<T> *current = node->children.size() > 1 ? node->children[1] : nullptr;
-                while (current)
+                Node<T> *current = node->children.size() > 1 ? node->children[1] : nullptr; // get the next child
+                while (current)                                                             // iterate over the children
                 {
                     nodes.push(current);
                     if (!current->children.empty())
@@ -221,10 +199,12 @@ public:
 
             return *this;
         }
-        Node<T> *operator*()
+        
+        Node<T> *operator*() // dereference operator
         {
             return nodes.top();
         }
+        
         T get_value() const
         {
             return nodes.top()->key;
@@ -237,18 +217,20 @@ public:
         std::queue<Node<T> *> nodes;
 
     public:
-        BFSIterator(Node<T> *root)
+        BFSIterator(Node<T> *root) // constructor
         {
             if (root != nullptr)
             {
                 nodes.push(root);
             }
         }
-        bool operator!=(const BFSIterator &other) const
+        
+        bool operator!=(const BFSIterator &other) const // check if the queue is empty
         {
             return !nodes.empty() || !other.nodes.empty();
         }
-        BFSIterator &operator++()
+        
+        BFSIterator &operator++() // increment operator
         {
             if (nodes.empty())
                 return *this;
@@ -260,48 +242,55 @@ public:
             }
             return *this;
         }
-        Node<T> *operator*()
+        
+        Node<T> *operator*() // dereference operator
         {
             return nodes.front();
         }
+        
         T get_value() const
         {
             return nodes.front()->key;
         }
     };
+
     class DFSIterator
     {
     private:
         std::stack<Node<T> *> nodes;
 
     public:
-        DFSIterator(Node<T> *root)
+        DFSIterator(Node<T> *root) // constructor
         {
             if (root != nullptr)
             {
                 nodes.push(root);
             }
         }
-        bool operator!=(const DFSIterator &other) const
+        
+        bool operator!=(const DFSIterator &other) const // check if the stack is empty
         {
             return !nodes.empty() || !other.nodes.empty();
         }
-        DFSIterator &operator++()
+        
+        DFSIterator &operator++() // increment operator
         {
             if (nodes.empty())
                 return *this;
             Node<T> *node = nodes.top();
             nodes.pop();
-            for (auto it = node->children.rbegin(); it != node->children.rend(); ++it)
+            for (auto it = node->children.rbegin(); it != node->children.rend(); ++it) // iterate over the children of the current node
             {
                 nodes.push(*it);
             }
             return *this;
         }
-        Node<T> *operator*()
+        
+        Node<T> *operator*() // dereference operator
         {
             return nodes.top();
         }
+        
         T get_value() const
         {
             return nodes.top()->key;
@@ -313,12 +302,12 @@ public:
     private:
         std::vector<Node<T> *> heap;
 
-        void heapify(Node<T>* node)
+        void heapify(Node<T> *node) // heapify the tree
         {
             if (!node)
                 return;
             heap.push_back(node);
-            for (auto& child : node->children)
+            for (auto &child : node->children) // iterate over the children of the current node
             {
                 heapify(child);
             }
@@ -326,59 +315,60 @@ public:
 
         void build_min_heap()
         {
-            for (int i = heap.size() / 2 - 1; i >= 0; --i)
+            for (int i = heap.size() / 2 - 1; i >= 0; --i) // iterate over the heap
             {
-                min_heapify(i);
+                min_heapify(i); // heapify the heap
             }
         }
 
         void min_heapify(int i)
         {
-            int smallest = i;
-            int left = 2 * i + 1;
-            int right = 2 * i + 2;
+            double smallest = i;      // set the current node as the smallest
+            double left = 2 * i + 1;  // get the left child
+            double right = 2 * i + 2; // get the right child
 
-            if (left < heap.size() && heap[left]->key < heap[smallest]->key)
+            if (left < heap.size() && heap[left]->key < heap[smallest]->key) // check if the left child is smaller than the current node
             {
-                smallest = left;
+                smallest = left; // set the left child as the smallest
             }
 
-            if (right < heap.size() && heap[right]->key < heap[smallest]->key)
+            if (right < heap.size() && heap[right]->key < heap[smallest]->key) // check if the right child is smaller than the current node
             {
-                smallest = right;
+                smallest = right; // set the right child as the smallest
             }
 
-            if (smallest != i)
+            if (smallest != i) // swap the current node with the smallest node
             {
                 std::swap(heap[i], heap[smallest]);
-                min_heapify(smallest);
+                min_heapify(smallest); // heapify the heap
             }
         }
 
     public:
-        HeapIterator(Node<T>* root)
+        HeapIterator(Node<T> *root) // constructor
         {
-            heapify(root);
-            build_min_heap();
+            heapify(root);    // for each node in the tree, heapify the tree
+            build_min_heap(); // build the min heap from the heap
         }
 
-        bool operator!=(const HeapIterator& other) const
+        bool operator!=(const HeapIterator &other) const // check if the heap is empty
         {
             return !heap.empty() || !other.heap.empty();
         }
 
-        HeapIterator& operator++()
+        HeapIterator &operator++() // increment operator
         {
             if (heap.empty())
                 return *this;
 
-            std::pop_heap(heap.begin(), heap.end(), [](Node<T>* a, Node<T>* b)
-                          { return a->key > b->key; });
+            std::pop_heap(heap.begin(), heap.end(), [](Node<T> *a, Node<T> *b) // pop the smallest element from the heap
+                          { return a->key >= b->key; });
             heap.pop_back();
 
             return *this;
         }
-        Node<T>* operator*()
+        
+        Node<T> *operator*() // dereference operator
         {
             return heap.front();
         }
@@ -389,20 +379,20 @@ public:
         }
     };
 
-    auto begin_preorder() const
+    auto begin_preorder() const // begin the preorder traversal
     {
-        if constexpr (K == 2)
+        if constexpr (K == 2) // check if the tree is binary
         {
             return PreOrderIterator(root);
         }
 
-        else
+        else // if the tree is not binary do a DFS traversal
         {
             return DFSIterator(root);
         }
     }
 
-    auto end_preorder()
+    auto end_preorder() // end the preorder traversal
     {
         if constexpr (K == 2)
         {
@@ -412,33 +402,30 @@ public:
         {
             return DFSIterator(nullptr);
         }
-        
     }
 
-    auto begin_post_order()
+    auto begin_post_order() // begin the postorder traversal
     {
-        if constexpr (K == 2)
+        if constexpr (K == 2) // check if the tree is binary
         {
             return PostOrderIterator(root);
         }
-        else
+        else // if the tree is not binary do a DFS traversal
         {
             return DFSIterator(root);
         }
-        
     }
+    
     auto end_post_order()
     {
         if constexpr (K == 2)
         {
             return PostOrderIterator(nullptr);
         }
-        else
+        else // if the tree is not binary do a DFS traversal
         {
             return DFSIterator(nullptr);
         }
-        //     return PostOrderIterator(nullptr);
-        // return DFSIterator(nullptr);
     }
 
     auto begin_in_order()
@@ -447,39 +434,39 @@ public:
         {
             return InOrderIterator(root);
         }
-        else
+        else // if the tree is not binary do a DFS traversal
         {
             return DFSIterator(root);
         }
-        //     return InOrderIterator(root);
-        // return DFSIterator(root);
     }
+    
     auto end_in_order()
     {
         if constexpr (K == 2)
         {
             return InOrderIterator(nullptr);
         }
-        else
+        else // if the tree is not binary do a DFS traversal
         {
             return DFSIterator(nullptr);
         }
-        //     return InOrderIterator(nullptr);
-        // return DFSIterator(nullptr);
     }
 
     BFSIterator begin_bfs_scan()
     {
-        return BFSIterator(root);
+        return BFSIterator(root); // begin the BFS traversal
     }
+    
     BFSIterator end_bfs_scan()
     {
-        return BFSIterator(nullptr);
+        return BFSIterator(nullptr); // end the BFS traversal
     }
+    
     DFSIterator begin_dfs_scan()
     {
         return DFSIterator(root);
     }
+    
     DFSIterator end_dfs_scan()
     {
         return DFSIterator(nullptr);
@@ -496,11 +483,9 @@ public:
     }
 
 private:
-    // std::unique_ptr<Node<T>> root;
-    size_t maxChildren;
 
+    size_t maxChildren;
     void draw(sf::RenderWindow &window, Node<T> *node, float x, float y, float offset, sf::Font &font);
-    void print(Node<T> *node, int depth) const;
 };
 
 template <typename T, size_t K>
@@ -516,11 +501,16 @@ void Tree<T, K>::draw(sf::RenderWindow &window, Node<T> *node, float x, float y,
 
     sf::Text text;
     text.setFont(font);
-    if constexpr (std::is_same_v<T, std::string>) {
+    if constexpr (std::is_same_v<T, std::string>)
+    {
         text.setString(node->key);
-    } else if constexpr (std::is_same_v<T, Complex>) {
+    }
+    else if constexpr (std::is_same_v<T, Complex>)
+    {
         text.setString(node->key.to_string());
-    } else {
+    }
+    else
+    {
         text.setString(std::to_string(node->key));
     }
     text.setCharacterSize(14);
@@ -555,7 +545,7 @@ void Tree<T, K>::draw(sf::RenderWindow &window)
 }
 
 template <typename T, size_t K>
-void Tree<T, K>::display()
+void Tree<T, K>::display()// display the tree
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Tree Visualization");
     while (window.isOpen())
@@ -566,58 +556,10 @@ void Tree<T, K>::display()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
         window.clear(sf::Color::White);
         this->draw(window);
         window.display();
     }
 }
-
-// class HeapIterator
-// {
-// private:
-//     std::vector<Node<T> *> nodes;
-// public:
-//     HeapIterator(Node<T> *root){
-//         if (root != nullptr)
-//         {
-//             nodes.push_back(root);
-//         }
-//     }
-//     bool operator!=(const HeapIterator &other) const{
-//         return !nodes.empty() || !other.nodes.empty();
-//     }
-//     HeapIterator &operator++(){
-//         if (nodes.empty())
-//             return *this;
-//         Node<T> *node = nodes.front();
-//         nodes.erase(nodes.begin());
-//         for (auto child : node->children)
-//         {
-//             nodes.push_back(child);
-//         }
-//         return *this;
-//     }
-//     Node<T> *operator*(){
-//         return nodes.front();
-//     }
-//     T get_value() const{
-//         return nodes.front()->key;
-//     }
-// };
-
-// PreOrderIterator begin_pre_order();
-// PreOrderIterator end_pre_order();
-// PostOrderIterator begin_post_order();
-// PostOrderIterator end_post_order();
-// InOrderIterator begin_in_order();
-// InOrderIterator end_in_order();
-// BFSIterator begin_bfs_scan();
-// BFSIterator end_bfs_scan();
-// DFSIterator begin_dfs_scan();
-// DFSIterator end_dfs_scan();
-// };
-
-#include "Tree.cpp"
 
 #endif // TREE_HPP
