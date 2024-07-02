@@ -78,7 +78,14 @@ int main()
     tree.add_sub_node(n1, n4);
     tree.add_sub_node(n1, n5);
     tree.add_sub_node(n1, n6);
-    tree.display();
+    // tree.display();
+    cout << "Heapify: " << endl;
+    for(auto node = tree.begin_heap(); node != tree.end_heap(); ++node)
+    {
+        cout << node.get_value()<<", ";
+    }
+    std::cout << std::endl;
+    // tree.build_min_heap();
 
 
     

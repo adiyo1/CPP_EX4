@@ -42,6 +42,10 @@ public:
     {
         return Complex(real * other.real - imag * other.imag, real * other.imag + imag * other.real);
     }
+    bool operator<(const Complex &other) const
+    {
+        return std::sqrt(real * real + imag * imag) < std::sqrt(other.real * real + other.imag * other.imag);
+    }
     bool operator>(const Complex &other) const
     {
         return std::sqrt(real * real + imag * imag) > std::sqrt(other.real * real + other.imag * other.imag);
