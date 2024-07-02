@@ -210,7 +210,7 @@ int main()
     three_ary_tree.add_sub_node(root_nodee, n33);
     three_ary_tree.add_sub_node(n11, n44);
     three_ary_tree.add_sub_node(n22, n55);
-    // three_ary_tree.display(); // Should print the tree using GUI.
+    three_ary_tree.display(); // Should print the tree using GUI.
 
 
     std::cout << "3-ary tree iterators " << std::endl;
